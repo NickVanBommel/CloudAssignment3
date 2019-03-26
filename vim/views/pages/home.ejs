@@ -1,0 +1,438 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Cloudy With a Chance of Meatballs</title>
+        <link href="/stylesheets/home.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        jQuery(document).ready(function(){
+
+                // Declare variables
+                var click_basic_vm = jQuery('#basic_vm')
+                var click_large_vm = jQuery('#large_vm')
+                var click_ultra_vm = jQuery('#ultra_vm')
+                var click_request_total =jQuery('#request_total_charges')
+                var click_start = jQuery('#start')
+                var click_stop = jQuery('#stop')
+                var click_delete = jQuery('#delete')
+                var click_upgrade = jQuery('#upgrade')
+                var click_downgrade = jQuery('#downgrade')
+                var click_request_usage = jQuery('#request_usage')
+                var click_logout =jQuery('#logout')
+                var usage_start_time = jQuery('#startDateTime')
+                var usage_end_time =jQuery('#endDateTime')
+
+                var currentDate = new Date();
+
+                usage_end_time.val(currentDate.toISOString());
+
+                currentDate.setDate(currentDate.getDate() - 10);
+                usage_start_time.val(currentDate.toISOString());
+
+                //LOGOUT BUTTON
+                click_logout.bind('click', function(){
+                    $("body").load("/");
+                });
+
+                // BASIC BUTTON
+                click_basic_vm.bind('click', function () {
+                    var ccID_input = <%=ccID%>
+                    var input_quantity = $("#basic_quantity").val()
+
+                    for (i = 1; i <= input_quantity; i++) {
+                        if(i != input_quantity){
+                            $.ajax({
+                                type: 'PUT',
+                                contentType : 'application/json',
+                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                headers: {"X-HTTP-Method-Override": "PUT"},
+                                data: '{"template": "Basic", "ccID":"' +ccID_input+ '"}',
+                                success:function(data){
+                                    console.log("creating")
+                                }
+                            });
+                        }else{
+                            $.ajax({
+                                type: 'PUT',
+                                contentType : 'application/json',
+                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                headers: {"X-HTTP-Method-Override": "PUT"},
+                                data: '{"template": "Basic", "ccID":"' +ccID_input+ '"}',
+                                success:function(data){
+                                    $("body").html(data);
+                                    alert("You have successfully created " + input_quantity + " basic VM(s). Please refer to your current VMs for more information!")
+                                }
+                            });
+                        }
+                    }
+
+                });
+
+                // LARGE BUTTON
+                click_large_vm.bind('click', function () {
+                    var ccID_input = <%=ccID%>
+                    var input_quantity = $("#large_quantity").val()
+
+                    for (i = 1; i <= input_quantity; i++) {
+                        if(i != input_quantity){
+                            $.ajax({
+                            type: 'PUT',
+                            contentType : 'application/json',
+                            url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                            headers: {"X-HTTP-Method-Override": "PUT"},
+                            data: '{"template": "Large", "ccID":"' +ccID_input+ '"}',
+                            success:function(data){
+                               console.log("creating");
+                            }
+                        });
+                        }else{
+                            $.ajax({
+                                type: 'PUT',
+                                contentType : 'application/json',
+                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                headers: {"X-HTTP-Method-Override": "PUT"},
+                                data: '{"template": "Large", "ccID":"' +ccID_input+ '"}',
+                                success:function(data){
+                                    $("body").html(data);
+                                    alert("You have successfully created " + input_quantity + " large VM(s). Please refer to your current VMs for more information!")
+                                }
+                            });
+                        }
+                    }
+
+                });
+
+                // ULTRA BUTTON
+                click_ultra_vm.bind('click', function () {
+                    var ccID_input = <%=ccID%>
+                    var input_quantity = $("#ultra_quantity").val()
+
+                    for (i = 1; i <= input_quantity; i++) {
+                        if(i != input_quantity){
+                            $.ajax({
+                                type: 'PUT',
+                                contentType : 'application/json',
+                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                headers: {"X-HTTP-Method-Override": "PUT"},
+                                data: '{"template": "UltraLarge", "ccID":"' +ccID_input+ '"}',
+                                success:function(data){
+                                    console.log("creating")
+                                }
+                            });
+                        }else{
+                            $.ajax({
+                                type: 'PUT',
+                                contentType : 'application/json',
+                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                headers: {"X-HTTP-Method-Override": "PUT"},
+                                data: '{"template": "UltraLarge", "ccID":"' +ccID_input+ '"}',
+                                success:function(data){
+                                    $("body").html(data);
+                                    alert("You have successfully created " + input_quantity + " ultra large VM(s). Please refer to your current VMs for more information!")
+                                }
+                            });
+                        }
+                    }
+
+                });
+
+                // GET VM LIST
+                $.ajax({
+                    type: 'GET',
+                    contentType : 'application/json',
+                    url: "https://safe-taiga-53841.herokuapp.com/api/vms",
+                    headers: {"X-HTTP-Method-Override": "GET"},
+                    success:function(data){
+
+                        console.log(data);
+                        var table = $("#vm_list tbody");
+                        $.each(data, function(idx, elem){
+                            table.append("<tr><td>"+elem.VMID+"</td><td>"+elem.turnedOn+"</td><td>"+elem.configName+"</td><td><input type='checkbox' class='vm_selected' vmid='"+elem.VMID+"'></td></tr>");
+                        });
+
+                        var dropdown = $("#vms_dropdown");
+                        $.each(data, function(idx, elem) {
+                            dropdown.append($("<option />").val(this.data).text(elem.VMID));
+                        });
+                    }
+                });
+
+                // GET TOTAL CHARGES LIST
+                click_request_total.bind('click', function () {
+                    $.ajax({
+                        type: 'GET',
+                        contentType : 'application/json',
+                        url: "https://safe-taiga-53841.herokuapp.com/api/events/cost/1",
+                        headers: {"X-HTTP-Method-Override": "GET"},
+                        success:function(data){
+                            console.log(data);
+                            var table = $("#charges_list tbody");
+                            $.each(data, function(idx, elem){
+                                if (elem.Basic != '0') {
+                                    table.append("<tr><td>"+elem.VMID+"</td><td>"+elem.Basic+"</td></tr>");
+                                } else if (elem.Large != '0') {
+                                    table.append("<tr><td>"+elem.VMID+"</td><td>"+elem.Large+"</td></tr>");
+                                }
+                                else {
+                                    table.append("<tr><td>"+elem.VMID+"</td><td>"+elem.UltraLarge+"</td></tr>");
+                                }
+                            });
+                            $("#charges_list").show();
+                        }
+                    });
+                });
+
+                // REQUEST USAGE BUTTON
+                click_request_usage.bind('click', function () {
+
+                    var vmID_input = $("#vms_dropdown option:selected").text().toString()
+                    var inputData = $.param({startDatetime: usage_start_time.val(), endDatetime: usage_end_time.val()});
+                    $.ajax({
+                        type: 'GET',
+                        contentType : 'application/json',
+                        url: "https://safe-taiga-53841.herokuapp.com/api/events/usage/" + vmID_input +"?" + inputData,
+                        headers: {"X-HTTP-Method-Override": "GET"},
+                        success:function(data){
+                            var usage = $("#display_usage");
+                            var displayVal = ""
+                            usage.text("");
+                            displayVal = "\nBasic Usage: " + data.Basic;
+                            displayVal += "\nLarge Usage: " + data.Large;
+                            displayVal += "\nUltra Large Usage: " + data.UltraLarge;
+
+                            usage.text(displayVal);
+                            usage.show();
+                        }
+                    });
+                });
+
+
+                // START BUTTON
+                click_start.bind('click', function () {
+                    var promises = [];
+                    var ccID_input = <%=ccID%>;
+
+                    $(".vm_selected").each(function(index, elem) {
+                        if ($(elem).is(':checked')) {
+                            var vmID_input = elem.getAttribute('vmid');
+                            console.log(vmID_input)
+                            console.log(ccID_input)
+                            var input_data = '{"vmID":"' +vmID_input+ '", "ccID":"' +ccID_input+ '"}'
+
+                            promises.push(
+                                $.ajax({
+                                    type: 'PUT',
+                                    contentType : 'application/json',
+                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/start",
+                                    headers: {"X-HTTP-Method-Override": "PUT"},
+                                    data: input_data
+                                })
+                            );
+                        }
+                    });
+
+                    Promise.all(promises).then(function(data) {
+                        $("body").html(data[0]);
+                    });
+                });
+
+                // STOP BUTTON
+                click_stop.bind('click', function () {
+                    var promises = [];
+                    var ccID_input = <%=ccID%>
+
+                    $(".vm_selected").each(function(index, elem) {
+                        if ($(elem).is(':checked')) {
+                            var vmID_input = elem.getAttribute('vmid');
+
+                            var input_data = '{"vmID":"' +vmID_input+ '", "ccID":"' +ccID_input+ '"}'
+
+                            promises.push(
+                                $.ajax({
+                                    type: 'PUT',
+                                    contentType : 'application/json',
+                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/stop",
+                                    headers: {"X-HTTP-Method-Override": "PUT"},
+                                    data: input_data
+                                })
+                            );
+                        }
+                    });
+
+                    Promise.all(promises).then(function(data) {
+                        $("body").html(data[0]);
+                    });
+                });
+
+                // DELETE BUTTON
+                click_delete.bind('click', function () {
+                    var promises = [];
+                    var ccID_input = <%=ccID%>
+
+                    $(".vm_selected").each(function(index, elem) {
+                        if ($(elem).is(':checked')) {
+                            var vmID_input = elem.getAttribute('vmid');
+                            var input_data = '{"vmID":"' +vmID_input+ '", "ccID":"' +ccID_input+ '"}'
+
+                            promises.push(
+                                $.ajax({
+                                    type: 'DELETE',
+                                    contentType : 'application/json',
+                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/delete",
+                                    headers: {"X-HTTP-Method-Override": "PUT"},
+                                    data: input_data
+                                })
+                            );
+                        }
+                    });
+
+                    Promise.all(promises).then(function(data) {
+                        $("body").html(data[0]);
+                    });
+                });
+
+                // UPGRADE BUTTON
+                click_upgrade.bind('click', function () {
+                    var promises = [];
+                    var ccID_input = <%=ccID%>
+
+                    $(".vm_selected").each(function(index, elem) {
+                        if ($(elem).is(':checked')) {
+                            var vmID_input = elem.getAttribute('vmid');
+                            var input_data = '{"vmID":"' +vmID_input+ '", "ccID":"' +ccID_input+ '"}'
+
+                            promises.push(
+                                $.ajax({
+                                    type: 'PUT',
+                                    contentType : 'application/json',
+                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/upgrade",
+                                    headers: {"X-HTTP-Method-Override": "PUT"},
+                                    data: input_data
+                                })
+                            );
+                        }
+                    });
+
+                    Promise.all(promises).then(function(data) {
+                        $("body").html(data[0]);
+                    });
+                });
+
+                // DOWNGRADE BUTTON
+                click_downgrade.bind('click', function () {
+                    var promises = [];
+                    var ccID_input = <%=ccID%>
+
+                    $(".vm_selected").each(function(index, elem) {
+                        if ($(elem).is(':checked')) {
+                            var vmID_input = elem.getAttribute('vmid');
+
+                            var input_data = '{"vmID":"' +vmID_input+ '", "ccID":"' +ccID_input+ '"}'
+
+                            promises.push(
+                                $.ajax({
+                                    type: 'PUT',
+                                    contentType : 'application/json',
+                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/downgrade",
+                                    headers: {"X-HTTP-Method-Override": "PUT"},
+                                    data: input_data
+                                })
+                            );
+                        }
+                    });
+
+                    Promise.all(promises).then(function(data) {
+                        $("body").html(data[0]);
+                    });
+                });
+            });
+        </script>
+
+    </head>
+  
+    <body>
+        <button id = "logout">Logout</button>
+        <br>
+        <h1> Welcome to the home page!</h1>
+        <h3> Your cloud consumer identifier is: <%=ccID%></h3>
+        
+        <!--CREATE THE VMS-->
+        <h4>Create a new VM here:</h4>
+        <!--Basic VM-->
+        <p>Basic Virtual Server Instance - 8 virtual processor cores, 16 GB of virtual RAM, 20GB of storage space in the root file system - 5 cents/minute</p>
+        <p>Select a value below and click create:</p>
+        <input type="number" value = "1" id="basic_quantity" min="1" max="99">
+        <button id="basic_vm">Create Basic</button>
+        <!--Large VM-->
+        <p>Large Virtual Server Instance - 32 virtual processor cores, 64 GB of virtual RAM, 20GB of storage space in the root file system -10 cents/minute </p>
+        <p>Select a value below and click create:</p>
+        <input type="number" value = "1" id="large_quantity" min="1" max="99">
+        <button id="large_vm">Create Large</button>
+        <!--Ultra Large VM-->
+        <p>Ultra-Large Virtual Server Instance-128 virtual processor cores, 512 GB of virtual RAM, 40GB of storage space in the root file system- 15 cents /minute</p>
+        <p>Select a value below and click create:</p>
+        <input type="number" value = "1" id="ultra_quantity" min="1" max="99">
+        <button id="ultra_vm">Create Ultra Large</button>
+        <hr>
+
+        <!--SHOW ALL CURRENT VMS-->
+        <h3> Your current VMS: </h3>
+
+        <table border="1" id="vm_list">
+            <thead>
+                <tr>
+                    <th>VMID</th>
+                    <th>Turned On/Off</th>
+                    <th>Config Name</th>
+                    <th>Selected</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <!--All buttons are currently passing in fake VM id's needs to be changed-->
+
+        <h4>Perform action on all selected VMs</h4>
+
+        <!--Start Button-->
+        <button id="start">Start</button>
+
+        <!--Stop Button-->
+        <button id="stop">Stop</button>
+
+        <!--Delete Button-->
+        <button id="delete">Delete</button>
+
+        <!--Upgrade Button-->
+        <button id="upgrade">Upgrade</button>
+
+        <!--Downgrade Button-->
+        <button id="downgrade">Downgrade</button>
+
+        <h4>Select a VM to request usage</h4>
+        <h5 id="display_usage"></h5>
+
+        <input style="width:250px" type="datetime" id="startDateTime">
+        <span> to </span>
+        <input style="width:250px" type="datetime" id="endDateTime">
+        <select id="vms_dropdown"></select>
+        <!--Request Usage Button-->
+        <button id="request_usage">Request Usage</button>
+
+        <!--Request total charges-->
+        <h4>Check total charges of VMs</h4>
+        <button id="request_total_charges">Request Total Charges:</button>
+        <br>
+        <div>
+            <table style="display:none;" border="1" id="charges_list">
+                <thead>
+                    <tr>
+                        <th>VMID</th>
+                        <th>Total Charges ($)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </body>
+</html>
+

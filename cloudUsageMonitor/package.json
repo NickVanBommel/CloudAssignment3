@@ -1,0 +1,24 @@
+{
+  "name": "cloudusagemonitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "method-override": "^3.0.0",
+    "mysql": "^2.16.0",
+    "node": "^10.15.2"
+  },
+  "author": "Cloud With a Chance of Meatballs",
+  "license": "ISC"
+}

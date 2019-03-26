@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+        <title>Cloud with a Chance of Meatballs</title>
+        <link href="/stylesheets/index.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">jQuery(document).ready(function(){
+                // Declare variables
+                var click_login = jQuery('#login_btn')
+
+                // LOGIN BUTTON
+                click_login.bind('click', function () {
+                    var username_input = $("#username").val().toString()
+                    var password_input = $("#password").val().toString()
+                    var input_data = '{"username":"' +username_input+ '", "password":"' +password_input+ '"}'
+
+                    $.ajax({
+                        type: 'POST',
+                        contentType : 'application/json',
+                        url: "https://safe-taiga-53841.herokuapp.com/api/vim/login",
+                        headers: {"X-HTTP-Method-Override": "POST"},
+                        data: input_data,
+                        success:function(data){
+                            $("body").html(data);
+                        },
+                        error:function(error){
+                            console.log(error);
+                            $("#invalid_password" ).show();
+                        }
+                    });
+                });
+            });</script>
+    </head>
+    <body>
+        <h1> Cloudy With a Chance of Meatballs Login </h1>
+        <h3> Username: </h3>
+        <input type ="text" id = "username" value ="">
+        <br>
+        <h3> Password: </h3>
+        <input type="password" id ="password" value ="">
+        <br><br>
+        <button id="login_btn">Login</button>
+        <h4 id="invalid_password" style="display:none;">Error! You have entered an invalid username or password, please try again!</h4>
+    </body>
+</html>
