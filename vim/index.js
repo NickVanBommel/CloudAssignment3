@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.get('/', (req, res) => res.render('pages/index'))
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT, "0.0.0.0", () => console.log(`Listening on ${ PORT }`));
 
 app.use('/api/vim', vim);
 app.use('/api/vms', vms);
