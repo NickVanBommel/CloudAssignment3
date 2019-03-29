@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const parseUrlencoded = bodyParser.urlencoded({extended: false});
 const parseJSON = bodyParser.json();
 const db = require('../database');
+const fs = require('fs');
 
 /* 
     vmID
@@ -26,8 +27,20 @@ router.route('/')
 
         try {
             db.query('INSERT INTO events (VMID, userID, VMConfigTypeID, eventType, eventTimeStamp) VALUES (?, ?, ?, ?, ?)', eventParams, (insertError, insertResult) => {
-                if (insertError) throw insertError;
-                res.send("posted even successfully");
+                if (insertError) {
+                    throw insertError;
+                }
+
+                const logData = `${Date.now()} --- vmID: ${vmID}, ccID: ${ccID}, vmConfig: ${vmConfig}, eventType: ${eventType}, timestap: ${timestamp}\n`;
+                fs.writeFile('logs/event.log', logData, {
+                    flag: 'a'   // open file for appending
+                }, function(err) {
+                    if (err) {
+                        throw err;
+                    } else {
+                        res.send("posted event successfully");
+                    }
+                });
             })
         } catch (err) {
             console.log(err);
