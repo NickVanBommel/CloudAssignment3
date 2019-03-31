@@ -49,5 +49,9 @@ router.route('/')
         }
     });
 
+router.route("/available")
+    .get(parseUrlencoded, parseJSON, (req, res) => {
+        res.sendStatus(200);
+    })
 
 module.exports = router;
