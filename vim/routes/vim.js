@@ -44,11 +44,11 @@ router.route('/create')
         try {
             const params = [true, true];                    // First parameters set the VM as active and on
             if (req.body.template === 'UltraLarge') {       // Convert incoming template name into an ID and validate
-                params.push(3);
-            } else if (req.body.template === 'Large') {
                 params.push(2);
-            } else if (req.body.template === 'Basic') {
+            } else if (req.body.template === 'Large') {
                 params.push(1);
+            } else if (req.body.template === 'Basic') {
+                params.push(0);
             } else {
                 throw new Error(`Unsupported VM template '${req.body.template}'`);
             }
