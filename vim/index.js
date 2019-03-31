@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 80
 var vim = require('./routes/vim');
 var vms = require('./routes/vms');
 var home = require('./routes/home');
+var events = require('./routes/events');
 var methodOverride = require('method-override')
 
 app.use(methodOverride('_method'))
@@ -18,3 +19,4 @@ app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 app.use('/api/vim', vim);
 app.use('/api/vms', vms);
 app.use('/home', home);
+app.use('/api/events', events);
