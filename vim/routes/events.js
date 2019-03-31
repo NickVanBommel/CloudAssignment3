@@ -16,7 +16,7 @@ router.route('/usage/:vmId')
 				console.log(resp.data);
 				res.send(resp.data);
 			}).catch(function (error) {
-				console.log(error);
+				throw error;
 			});
         } catch (err) {
             console.log(err);
@@ -32,7 +32,7 @@ router.route('/cost/:ccid')
 				console.log(resp.data);
 				res.send(resp.data);
 			}).catch(function (error) {
-				console.log(error);
+				throw error;
 			});
         } catch (err) {
             console.log(err);

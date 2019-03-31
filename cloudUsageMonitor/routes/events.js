@@ -14,7 +14,11 @@ router.route('/usage/:vmId')
 
             db.query("SELECT events.*, configtype.configName FROM events join configtype on configtype.configTypeID = events.VMconfigTypeID where VMID = ? AND eventTimeStamp BETWEEN ? AND ?;", getParams, function (error, results, fields) {
                 if (error) throw error;
+				console.log('Usage Results');
+				console.log(results);
                 var usageMetrics = getVMUsage(results);
+				console.log('Usage metrics');
+				console.log(usageMetrics);
                 res.send(usageMetrics);
             });
         } catch (err) {
@@ -28,7 +32,11 @@ router.route('/cost/:ccid')
         try {
             db.query("SELECT events.*, configtype.configName, configtype.costPerMinute FROM events join configtype on configtype.configTypeID = events.VMconfigTypeID ORDER BY VMID;", function (error, results, fields) {
                 if (error) throw error;
+				console.log('Cost results');
+				console.log(results);
                 var costs = getCost(results);
+				console.log('Costs');
+				console.log(costs);
                 res.send(costs);
             });
         } catch (err) {
