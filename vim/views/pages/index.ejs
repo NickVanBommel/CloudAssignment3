@@ -8,6 +8,8 @@
         <script type="text/javascript">jQuery(document).ready(function(){
                 // Declare variables
                 var click_login = jQuery('#login_btn')
+				
+				const apiRoot = 'http://52.234.229.146/api';
 
                 // LOGIN BUTTON
                 click_login.bind('click', function () {
@@ -18,7 +20,7 @@
                     $.ajax({
                         type: 'POST',
                         contentType : 'application/json',
-                        url: "https://safe-taiga-53841.herokuapp.com/api/vim/login",
+                        url: apiRoot + "/vim/login",
                         headers: {"X-HTTP-Method-Override": "POST"},
                         data: input_data,
                         success:function(data){

@@ -6,7 +6,7 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript">
         jQuery(document).ready(function(){
-
+		
                 // Declare variables
                 var click_basic_vm = jQuery('#basic_vm')
                 var click_large_vm = jQuery('#large_vm')
@@ -21,6 +21,8 @@
                 var click_logout =jQuery('#logout')
                 var usage_start_time = jQuery('#startDateTime')
                 var usage_end_time =jQuery('#endDateTime')
+				
+				const apiRoot = 'http://52.234.229.146/api';
 
                 var currentDate = new Date();
 
@@ -44,7 +46,7 @@
                             $.ajax({
                                 type: 'PUT',
                                 contentType : 'application/json',
-                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                url: apiRoot + "/vim/create",
                                 headers: {"X-HTTP-Method-Override": "PUT"},
                                 data: '{"template": "Basic", "ccID":"' +ccID_input+ '"}',
                                 success:function(data){
@@ -55,7 +57,7 @@
                             $.ajax({
                                 type: 'PUT',
                                 contentType : 'application/json',
-                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                url: apiRoot + "/vim/create",
                                 headers: {"X-HTTP-Method-Override": "PUT"},
                                 data: '{"template": "Basic", "ccID":"' +ccID_input+ '"}',
                                 success:function(data){
@@ -78,7 +80,7 @@
                             $.ajax({
                             type: 'PUT',
                             contentType : 'application/json',
-                            url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                            url: apiRoot + "/vim/create",
                             headers: {"X-HTTP-Method-Override": "PUT"},
                             data: '{"template": "Large", "ccID":"' +ccID_input+ '"}',
                             success:function(data){
@@ -89,7 +91,7 @@
                             $.ajax({
                                 type: 'PUT',
                                 contentType : 'application/json',
-                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                url: apiRoot + "/vim/create",
                                 headers: {"X-HTTP-Method-Override": "PUT"},
                                 data: '{"template": "Large", "ccID":"' +ccID_input+ '"}',
                                 success:function(data){
@@ -112,7 +114,7 @@
                             $.ajax({
                                 type: 'PUT',
                                 contentType : 'application/json',
-                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                url: apiRoot + "/vim/create",
                                 headers: {"X-HTTP-Method-Override": "PUT"},
                                 data: '{"template": "UltraLarge", "ccID":"' +ccID_input+ '"}',
                                 success:function(data){
@@ -123,7 +125,7 @@
                             $.ajax({
                                 type: 'PUT',
                                 contentType : 'application/json',
-                                url: "https://safe-taiga-53841.herokuapp.com/api/vim/create",
+                                url: apiRoot + "/vim/create",
                                 headers: {"X-HTTP-Method-Override": "PUT"},
                                 data: '{"template": "UltraLarge", "ccID":"' +ccID_input+ '"}',
                                 success:function(data){
@@ -140,7 +142,7 @@
                 $.ajax({
                     type: 'GET',
                     contentType : 'application/json',
-                    url: "https://safe-taiga-53841.herokuapp.com/api/vms",
+                    url: apiRoot + "/vms",
                     headers: {"X-HTTP-Method-Override": "GET"},
                     success:function(data){
 
@@ -162,7 +164,7 @@
                     $.ajax({
                         type: 'GET',
                         contentType : 'application/json',
-                        url: "https://safe-taiga-53841.herokuapp.com/api/events/cost/1",
+                        url: apiRoot + "/events/cost/1",
                         headers: {"X-HTTP-Method-Override": "GET"},
                         success:function(data){
                             console.log(data);
@@ -190,7 +192,7 @@
                     $.ajax({
                         type: 'GET',
                         contentType : 'application/json',
-                        url: "https://safe-taiga-53841.herokuapp.com/api/events/usage/" + vmID_input +"?" + inputData,
+                        url: apiRoot + "/events/usage/" + vmID_input +"?" + inputData,
                         headers: {"X-HTTP-Method-Override": "GET"},
                         success:function(data){
                             var usage = $("#display_usage");
@@ -223,7 +225,7 @@
                                 $.ajax({
                                     type: 'PUT',
                                     contentType : 'application/json',
-                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/start",
+                                    url: apiRoot + "/vim/start",
                                     headers: {"X-HTTP-Method-Override": "PUT"},
                                     data: input_data
                                 })
@@ -251,7 +253,7 @@
                                 $.ajax({
                                     type: 'PUT',
                                     contentType : 'application/json',
-                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/stop",
+                                    url: apiRoot + "/vim/stop",
                                     headers: {"X-HTTP-Method-Override": "PUT"},
                                     data: input_data
                                 })
@@ -278,7 +280,7 @@
                                 $.ajax({
                                     type: 'DELETE',
                                     contentType : 'application/json',
-                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/delete",
+                                    url: apiRoot + "/vim/delete",
                                     headers: {"X-HTTP-Method-Override": "PUT"},
                                     data: input_data
                                 })
@@ -305,7 +307,7 @@
                                 $.ajax({
                                     type: 'PUT',
                                     contentType : 'application/json',
-                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/upgrade",
+                                    url: apiRoot + "/vim/upgrade",
                                     headers: {"X-HTTP-Method-Override": "PUT"},
                                     data: input_data
                                 })
@@ -333,7 +335,7 @@
                                 $.ajax({
                                     type: 'PUT',
                                     contentType : 'application/json',
-                                    url: "https://safe-taiga-53841.herokuapp.com/api/vim/downgrade",
+                                    url: apiRoot + "/vim/downgrade",
                                     headers: {"X-HTTP-Method-Override": "PUT"},
                                     data: input_data
                                 })
