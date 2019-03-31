@@ -278,7 +278,7 @@ router.route('/upgrade')
                 } else {
                     if (selectResult.length > 0) {
                         // Now that the VM is confirmed to exist, figure out the upgraded config and update it
-                        let newConfigID = Math.min(selectResult[0].configTypeID + 1, 3);
+                        let newConfigID = Math.min(selectResult[0].configTypeID + 1, 2);
                         const updateParams = [newConfigID, req.body.vmID];
 
                         db.query('UPDATE vms SET configTypeID = ? WHERE VMID = ?', updateParams, (updateError, updateResult) => {
@@ -335,7 +335,7 @@ router.route('/downgrade')
                 } else {
                     if (selectResult.length > 0) {
                         // Now that the VM is confirmed to exist, figure out the downgraded config and update it
-                        let newConfigID = Math.max(selectResult[0].configTypeID - 1, 1);
+                        let newConfigID = Math.max(selectResult[0].configTypeID - 1, 0);
                         const updateParams = [newConfigID, req.body.vmID];
 
                         db.query('UPDATE vms SET configTypeID = ? WHERE VMID = ?', updateParams, (updateError, updateResult) => {
