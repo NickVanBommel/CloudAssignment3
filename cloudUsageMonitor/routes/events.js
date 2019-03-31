@@ -7,6 +7,7 @@ const db = require('../database');
 
 router.route('/usage/:vmId')
     .get(parseUrlencoded, parseJSON, (req, res) => {
+		console.log('usage route hit');
         try {
             var vmToGetUsageFor = req.params.vmId;
 
@@ -29,6 +30,7 @@ router.route('/usage/:vmId')
 
 router.route('/cost/:ccid')
     .get(parseUrlencoded, parseJSON, (req, res) => {
+		console.log('cost route hit');
         try {
             db.query("SELECT events.*, configtype.configName, configtype.costPerMinute FROM events join configtype on configtype.configTypeID = events.VMconfigTypeID ORDER BY VMID;", function (error, results, fields) {
                 if (error) throw error;
