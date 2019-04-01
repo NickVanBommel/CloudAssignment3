@@ -47,11 +47,10 @@ router.route('/')
             res.sendStatus(500);
             res.send(err);
         }
-    });
-
-router.route("/available")
-    .get(parseUrlencoded, parseJSON, (req, res) => {
-        res.sendStatus(200);
     })
+
+    .get(parseUrlencoded, parseJSON, (req, res) => {
+	    res.sendStatus(404);
+    });
 
 module.exports = router;

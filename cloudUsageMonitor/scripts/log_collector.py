@@ -7,9 +7,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import datetime
 import schedule
-import http.client
-from dotenv import load_dotenv
-load_dotenv()
 
 # if having problems with authentication go to https://www.google.com/settings/security/lesssecureapps
 
@@ -19,7 +16,12 @@ smtp_server = "smtp.gmail.com"
 # TLS port
 port = 587
 
-def send_email_with_attachment(sender_email, password, receiver_email, filename):
+def send_email_with_attachment():
+    print("sending log email!")
+    sender_email="westerncubesat@gmail.com"
+    password="3satsinarow"
+    receiver_email="sarwhelan11@gmail.com"
+    filename="../logs/event.log"
     todays_date = datetime.datetime.today()
     
     subject = "Cloud Usage Monitor Logging Update"
@@ -57,8 +59,9 @@ def send_email_with_attachment(sender_email, password, receiver_email, filename)
     server.sendmail(sender_email, receiver_email, text)
 
 # actual implementation
-schedule.every().day.at("00:00").do(send_email_with_attachment(os.getenv("CUBESAT_EMAIL"), os.getenv("CUBESAT_PASS"), os.getenv("RECEIVING_EMAIL"), "../logs/event.log"))
+schedule.every().day.at("00:49").do(send_email_with_attachment)
 
 while True:
     schedule.run_pending()
+    print(datetime.datetime.today())
     time.sleep(1)

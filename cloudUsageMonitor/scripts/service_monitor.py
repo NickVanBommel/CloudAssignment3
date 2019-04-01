@@ -8,9 +8,6 @@ import datetime
 import time
 import schedule
 import requests
-from dotenv import load_dotenv
-load_dotenv()
-
 
 # if having problems with authentication go to https://www.google.com/settings/security/lesssecureapps
 
@@ -41,11 +38,12 @@ def send_email(sender_email, password, receiver_email):
     server.sendmail(sender_email, receiver_email, text)
 
 def check_server():
-    res = requests.get(os.getenv("USAGE_MON_AVAIL"))
+    res = requests.get('http://10.0.0.7:80/api/cloud-usage-monitor')
     if res.status_code != 200:
-        send_email(os.getenv("CUBESAT_EMAIL"), os.getenv("CUBESAT_PASS"), os.getenv("RECEIVING_EMAIL"))
+        print("status != 200")
+        send_email('westerncubesat@gmail.com', '3satsinarow', 'sarwhelan11@gmail.com')
 
-schedule.every(5).minutes.do(check_server())
+schedule.every(1).second.do(check_server)
 
 while True:
     schedule.run_pending() 
