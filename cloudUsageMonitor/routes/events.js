@@ -13,7 +13,8 @@ router.route('/usage/:vmId')
 
             var getParams = [vmToGetUsageFor, req.query.startDatetime, req.query.endDatetime];
 
-            db.query("SELECT events.*, configtype.configName FROM events join configtype on configtype.configTypeID = events.VMconfigTypeID where VMID = ? AND eventTimeStamp BETWEEN ? AND ?;", getParams, function (error, results, fields) {
+            console.log(getParams);
+            db.query("SELECT events.*, configtype.configName FROM events join configtype on configtype.configTypeID = events.VMconfigTypeID where VMID = ? AND eventTimeStamp BETWEEN ? AND ? ORDER BY eventID;", getParams, function (error, results, fields) {
                 if (error) throw error;
 				console.log('Usage Results');
 				console.log(results);
