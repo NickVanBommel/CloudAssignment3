@@ -11,6 +11,8 @@ const usageMonitorEndpt = process.env.USAGE_MONITOR_ENDPOINT;
 router.route('/usage/:vmId')
     .get(parseUrlencoded, parseJSON, (req, res) => {
         try {
+            console.log(req.query);
+            console.log(req.params);
             axios.get('http://10.0.0.7:80/api/events/usage/' + req.params.vmId, { params: { startDatetime: req.query.startDatetime, endDatetime: req.query.endDatetime } })
 			.then(function (resp) {
 				console.log(resp.data);
