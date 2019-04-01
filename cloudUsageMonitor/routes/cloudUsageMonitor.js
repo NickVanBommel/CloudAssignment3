@@ -26,7 +26,7 @@ router.route('/')
         var eventParams = [vmID, ccID, vmConfig, eventType, timestamp];
 
         try {
-            db.query('INSERT INTO events (VMID, userID, VMConfigTypeID, eventType, NOW()) VALUES (?, ?, ?, ?)', eventParams, (insertError, insertResult) => {
+            db.query('INSERT INTO events (VMID, userID, VMConfigTypeID, eventType, eventTimestamp) VALUES (?, ?, ?, ?, NOW())', eventParams, (insertError, insertResult) => {
                 if (insertError) {
                     throw insertError;
                 }
